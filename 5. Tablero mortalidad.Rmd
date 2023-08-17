@@ -1,0 +1,101 @@
+---
+title: "Causas de Mortalidad en Jamundí en el 2020"
+output: 
+  flexdashboard::flex_dashboard:
+    theme:
+      bg: "#CCFFFF"
+      fg: "#000000" 
+      primary: "#000000"
+      base_font:
+        google: Prompt
+      code_font:
+        google: JetBrains Mono
+    orientation: columns
+    vertical_layout: fill
+  
+---
+
+
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+# Install thematic and un-comment for themed static plots (i.e., ggplot2)
+# thematic::thematic_rmd()
+```
+
+
+
+Column {data-width=450 .tabset}
+-----------------------------------------------------------------------
+
+### Distribución Principales Causas de Mortalidad
+```{r}
+porcentaje <- c(28.66, 6.05,3.82, 61.47)
+etiqueta <- paste(porcentaje, "%", sep = " ")
+mi_paleta <- c("#654321", "#A0522D", "#8B4513", "#660000")
+pie(porcentaje,labels= etiqueta, clockwise = TRUE, col = mi_paleta)
+main= "Principales Causas de Mortalidad en Jamundí, 2020"
+legend("topright", c("Infarto agudo de miocardio", "Hemorragia Masiva", "Insuficiencia Respiratoria Aguda", "Otras causas"), cex = 0.5, fill = mi_paleta)
+
+```
+
+
+
+### Defunciones según el sexo
+
+```{r }
+
+library(ggplot2)
+
+ev=c(200,  114)
+names(ev)=c("Masculino", "Femenino")
+barplot(ev, col=c("#7dbd00","#659cef"), main= "Num. Muertes de acuerdo al sexo")
+
+```
+
+
+### Estudio sobre las causas de Mortalidad en Jamundí, 2020
+
+De acuerdo a la información obtenida es posible decir que, la causa que más muertes origina en Jamundí es el infarto agudo de miocardio con 90 muertes correspondientes al 28.66% del total de fallecidos registrados, seguido de la hemorragia masiva con el 6.05% y la Insuficiencia respiratoria aguda con 12 muertes correspondientes al 3.82%. Así mismo, existen numerosas causas de las que sólo se registra una muerte como el Tromboembolismo cardiaco, el Tromboembolismo pulmonar y el Tumor maligno de esófago. 
+Otro aspecto a resaltar es que, la mayoría de las defunciones corresponde a personas del género masculino siendo estas el 63.69%, mientras que las personas del género femenino representan el 36.31%, es decir, casi un tercio de todas las muertes. 
+
+### Resumen Final
+En resumen, la mayoría de muertes registradas en Jamundí en 2020 tuvieron como causa principal un infarto agudo de miocardio representando al 28.66% de las causas y en su mayoría, las personas fallecidas eran del género masculino, siendo estos casi dos tercios de todas las defunciones. Finalmente, referente a la edad de muerte se encuentra que, aunque las edades van de los 0 a los 106 años, la mayoría de muertes ocurren a partir de los 60 años de edad.
+
+### Referencia de la Base de Datos
+
+Título: Causas de mortalidad 2020
+
+Descripción: Determinación oficial de las circunstancias que provocan la muerte de un ser humano, que pueden registrarse en un certificado de defunción.
+
+Actualizado: 15 de julio de 2022
+Suministró los datos: Alcaldía Municipal Jamundí
+
+Enlace: https://www.datos.gov.co/Salud-y-Protecci-n-Social/Causas-de-mortalidad-2020/3ve7-r5k8 
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+### Número de Muertes por Edad
+```{r}
+library(readxl)
+X4_1_Causas_de_mortalidad_2020 <- read_excel("C:/Users/angie/Downloads/actividad 122/4.1 Causas_de_mortalidad_2020.xlsx") 
+
+library(ggplot2)
+
+ggplot(data = X4_1_Causas_de_mortalidad_2020,
+       mapping = aes(x=Edad,
+                     fill=factor(Edad))) + 
+  geom_histogram(bins = 9,
+                 position = "identity",
+                 alpha=0.8) +
+  labs(tittle= "Muertes por Edad",
+       fill="Edad",
+       x= "Edad",
+       y= "Núm. de personas")
+
+```
+
+
+
+
